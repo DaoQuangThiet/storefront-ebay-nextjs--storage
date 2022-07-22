@@ -1,140 +1,136 @@
-import * as React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@mui/material/Box";
-import { Typography } from "@mui/material";
-import Link from "@mui/material/Link";
-import { Button } from '@mui/material';
-import { useRouter } from "next/router";
+import * as React from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+import {
+  Box,
+  Button,
+  Heading,
+  Center,
+  Flex,
+  Tabs,
+  TabList,
+  TabPanel,
+  Tab,
+  TabPanels,
+  Image,
+  Text,
+  SimpleGrid,
+} from '@chakra-ui/react'
+// import Search_Collection from './searchcollection'
 
-
-const colorHover = '#40c6ff';
-const useStyles = makeStyles({
-  product: {
-    marginTop: "50px",
-    textAlign: "center",
-    marginBottom: "30px"
-  },
-  tabsProduct: {
-    paddingBottom: 25,
-    textAlign: "center"
-  },
-  title: {
-    color: "#444444",
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 20
-  },
-  tabsTitle: {
-    display: "inline-flex",
-    '@media  (max-width: 767px)': {
-
-      display: "inline-block ",
-      width: "100%"
-
-    }
-  },
-
-  tabs: {
-    marginRight: 12,
-    '@media  (max-width: 767px)': {
-      display: "block",
-      margin: "0px 0px 20px 0px",
-      width: "100%"
-
-    }
-  },
-  tabText: {
-    textTransform: "capitalize",
-    textDecoration: "none",
-    color: "#444",
-    fontSize: 16,
-    padding: "6px 20px",
-    border: "solid 1px#e3e3e3",
-    WebkitBorderRadius: 32,
-    borderRadius: 32,
-    cursor: "pointer",
-    '@media  (max-width: 750px)': {
-      width: "100%",
-      display: "block"
-    },
-    "&:hover": {
-      backgroundColor: "rgb(64,198,255)",
-      color: "#fff",
-      transition: "width 2s"
-    },
-    "&:active": {
-      backgroundColor: "rgb(64,198,255)",
-      color: "#fff",
-      transition: "width 2s"
-    }
-
-  },
-  titleHome: {
-    fontFamily: 'Merriweather,sans-serif',
-    color: '#444444',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    margin: '30px 0px 25px 0px',
-    '& span': {
-      position: 'relative',
-      display: 'inline-block',
-      '&::after': {
-        position: 'absolute',
-        content: '""',
-        width: '15px',
-        height: '1px',
-        left: '-30px',
-        top: '18px',
-        backgroundColor: `${colorHover}`,
-      },
-      '&::before': {
-        position: 'absolute',
-        content: '""',
-        width: '15px',
-        height: '1px',
-        right: '-30px',
-        top: '18px',
-        backgroundColor: `${colorHover}`,
-      }
-    }
-  },
-});
-
-export default function Tab() {
-  const classes = useStyles();
-  const router = useRouter();
+const TabHeader = (props) => {
+  const { collections, products } = props
+  const router = useRouter()
   const handleSubmit = (value) => {
     //console.log(value);
-    router.push(`?slug=${value}`);
-  };
+    router.replace(`?s=${value}`)
+  }
   return (
-    <>
-      <Box className={classes.product}>
-        <Box className={classes.tabsProduct}>
-          <Typography className={classes.titleHome}><span>NEW PRODUCT</span></Typography>
-          <Box className={classes.tabsTitle}>
-            <Box className={classes.tabs}>
-              <Button className={classes.tabText} onClick={() => handleSubmit(`SmartPhone`)}> All Product </Button>
-            </Box>
-            <Box className={classes.tabs}>
-              <Button className={classes.tabText} onClick={() => handleSubmit(`custom-prints`)}>Custom Prints</Button>
-            </Box>
-            <Box className={classes.tabs}>
-              <Button className={classes.tabText} onClick={() => handleSubmit(`free-file-check`)}>Free file check</Button>
-            </Box>
-
-            <Box className={classes.tabs}>
-              <Button className={classes.tabText} onClick={() => handleSubmit(`graphic-design`)}>Graphic Design</Button>
-            </Box>
-            <Box className={classes.tabs}>
-              <Button className={classes.tabText} onClick={() => handleSubmit(`mailing`)}>Mailing</Button>
-            </Box>
-            
-            
-          </Box>
-        </Box>
+    <Box pt="6">
+      <Center>
+        <Heading
+          as="h3"
+          size="lg"
+          color="brand.title"
+          fontFamily="Merriweather"
+          _before={{
+            w: '15px',
+            h: '1px',
+            ml: '-6',
+            mt: '5',
+            content: `""`,
+            position: 'absolute',
+            backgroundColor: '#40c6ff',
+          }}
+          _after={{
+            mt: '5',
+            ml: '2',
+            w: '15px',
+            h: '1px',
+            content: `""`,
+            position: 'absolute',
+            backgroundColor: '#40c6ff',
+          }}
+        >
+          NEW PRODUCT
+        </Heading>
+      </Center>
+      <Box w="1200px" m="12px auto">
+        <Center>
+          <Tabs variant="soft-rounded" colorScheme="blue">
+            <TabList>
+              <Tab
+                onClick={() => handleSubmit('')}
+                border="1px solid #ccc"
+                bg="#fff"
+                mr="5"
+              >
+                All Product
+              </Tab>
+              {collections.length > 0 &&
+                collections.map((item) => (
+                  <Tab
+                    key={item}
+                    onClick={() => handleSubmit(item.slug)}
+                    border="1px solid #ccc"
+                    bg="#fff"
+                    mr="5"
+                    color="#666"
+                    _hover={{ bg: 'brand.primary', color: ' white' }}
+                  >
+                    {item.name}
+                  </Tab>
+                ))}
+            </TabList>
+            {/* {products.length > 0 &&
+              products.map((item) => (
+                <TabPanels key={item}>
+                  <TabPanel>
+                    <Box
+                      align="center"
+                      m="10px"
+                      p="10px"
+                      border="1px solid #efefef"
+                    >
+                      <Link href={`/product/${item.slug}`}>
+                        <a>
+                          <Image
+                            w="100%"
+                            src={item.productAsset.preview}
+                            alt=""
+                          />
+                        </a>
+                      </Link>
+                      <Box>
+                        {item.productName && (
+                          <Heading
+                            color="#323232"
+                            fontSize="18px"
+                            fontWeight="100"
+                            pt="4"
+                          >
+                            <Link href={`/product/${item.slug}`}>
+                              <a>{item.productName}</a>
+                            </Link>
+                          </Heading>
+                        )}
+                        <Text
+                          mt={2}
+                          fontSize="xl"
+                          align="center"
+                          color="brand.primary"
+                        >
+                          ${item.price.value / 100}
+                        </Text>
+                      </Box>
+                    </Box>
+                  </TabPanel>
+                </TabPanels>
+              ))} */}
+          </Tabs>
+        </Center>
       </Box>
-    </>
-  );
+    </Box>
+  )
 }
+export default TabHeader

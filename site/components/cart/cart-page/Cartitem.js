@@ -1,27 +1,7 @@
 import { useState } from 'react'
-import CloseIcon from '@mui/icons-material/Close'
 import { updateCart2 } from '../../../function'
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableRow from '@mui/material/TableRow'
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import { makeStyles } from '@material-ui/core/styles'
-
-const useStyles_cartItem = makeStyles((theme) => ({
-  cartelementPrice: {
-    color: 'rgb(64,198,255)',
-  },
-  cartelementTotal: {
-    color: 'rgb(64,198,255)',
-  },
-  cartqtyinput: {
-    width: '50%',
-    height: '40px',
-    paddingLeft: '10px',
-  },
-}))
+import { Box, Text, Image } from '@chakra-ui/react'
+import { AiOutlineClose } from 'react-icons/ai'
 
 const CartItem = ({ item, setCart, handleRemoveProductClick }) => {
   const [productCount, setProductCount] = useState(item.qty)
@@ -42,44 +22,40 @@ const CartItem = ({ item, setCart, handleRemoveProductClick }) => {
     }
   }
 
-  const classes = useStyles_cartItem()
   return (
-    <TableRow className={classes.cartitem} key={item.productId}>
+    <Box>
       {/*Icon close */}
-      <TableCell className={classes.cartelement}>
-        <Typography
-          className={classes.cartcloseicon}
+      <th>
+        <Text
           onClick={(event) => handleRemoveProductClick(event, item?.productId)}
         >
-          <CloseIcon />
-        </Typography>
-      </TableCell>
+          <AiOutlineClose />
+        </Text>
+      </th>
       {/* image */}
-      <TableCell className={classes.cartelementImg}>
-        <img width="150" src={item.image} />
-      </TableCell>
+      <th>
+        <Image width="150" src={item.image} alt="" />
+      </th>
       {/* image */}
-      <TableCell className={classes.cartelementName}>{item?.name}</TableCell>
+      <th>{item?.name}</th>
       {/* PRICE */}
-      <TableCell className={classes.cartelementPrice}>
-        {'$ ' + item?.price}
-      </TableCell>
+      <th color="rgb(64,198,255)">{'$ ' + item?.price}</th>
       {/* QUANTITY */}
-      <TableCell className={classes.cartelementInput}>
+      <th>
         <input
-          className={classes.cartqtyinput}
+          w="100%"
+          h="40px"
+          pl="10px"
           size="small"
           type="number"
           min="1"
           value={productCount}
           onChange={handleQtyChange}
         />
-      </TableCell>
+      </th>
       {/* Total */}
-      <TableCell className={classes.cartelementTotal}>
-        {item.totalPrice}
-      </TableCell>
-    </TableRow>
+      <th color="rgb(64,198,255)">{item.totalPrice}</th>
+    </Box>
   )
 }
 

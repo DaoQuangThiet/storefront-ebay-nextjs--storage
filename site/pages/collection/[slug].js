@@ -1,131 +1,20 @@
-import Link from 'next/link'
-import Container from '@mui/material/Container'
 import { useRouter } from 'next/router'
-import AddToCartButton from '../../components/cart/AddToCartButton'
-import { isEmpty } from 'lodash'
-import GalleryCarousel from '../../components/single-product/gallery-carousel'
-import CategoriesCarousel from '../../components/single-product/categories-carousel'
-import RelatedProduct from '../../components/single-product/related-product'
-import Price from '../../components/single-product/price'
-import { ImageList } from '@mui/material'
-import { ImageListItem } from '@mui/material'
-import { Grid } from '@mui/material'
-import { makeStyles } from '@material-ui/core/styles'
-import Rating from '@mui/material/Rating'
-import Breadcrumbs from '@mui/material/Breadcrumbs'
-import Banner from '../../assets/banner_page.png'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
-import Divider from '@mui/material/Divider'
-import Collection from '../../components/collection'
+import Collection from '@components/collection'
 import commerce from '@lib/api/commerce'
 import axios from 'axios'
+import {
+  Container,
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Spacer,
+  SimpleGrid,
+  Button,
+} from '@chakra-ui/react'
 
-const colorHover = '#40c6ff'
-const useStyles_pageShop = makeStyles((theme) => ({
-  pageShop: {
-    marginBottom: '60px',
-    minHeight: '200px',
-    backgroundImage: `url(${Banner.src})`,
-    backgroundSize: 'cover',
-  },
-
-  titlePage: {
-    display: 'flex',
-    paddingTop: '75px',
-    paddingBottom: '75px',
-    '@media (max-width: 768px)': {
-      display: 'block',
-    },
-  },
-
-  rightTextPage: {
-    float: 'right',
-    paddingTop: '12px',
-    '@media (max-width: 768px)': {
-      float: 'inherit',
-    },
-  },
-  productCategory: {
-    display: 'flex',
-    '@media (max-width: 768px)': {
-      display: 'flex',
-      flexDirection: 'column-reverse',
-    },
-  },
-  productCategoryText: {
-    marginRight: '25px',
-  },
-  textCartegory: {
-    padding: '10px 0px',
-    borderBottom: '1px solid #ccc',
-    color: '#676c77',
-    transition: '0.21s',
-    '& div.MuiTreeItem-content': {
-      padding: '0px!important',
-      '&:hover': {
-        background: '#fff',
-      },
-      '&:focus': {
-        background: '#fff',
-      },
-      '& svg': {
-        color: '#676c77',
-      },
-    },
-    '&:hover': {
-      color: '#000',
-    },
-  },
-  titleCartegory: {
-    marginBottom: '10px',
-    marginTop: '10px',
-  },
-  titleSideBarCategory: {
-    position: 'relative',
-    borderBottom: ' 1px solid #ccc',
-    paddingBottom: '15px',
-    marginBottom: '20px',
-    fontFamily: 'Merriweather,sans-serif',
-    fontWeight: 'bold',
-    fontSize: '24px',
-    '&:before': {
-      position: 'absolute',
-      content: '""',
-      width: '60px',
-      height: '1px',
-      bottom: '-1px',
-      backgroundColor: `${colorHover}`,
-    },
-  },
-  categoryText: {
-    paddingLeft: '0px',
-    '&:hover': {
-      backgroundColor: '#fff !important',
-    },
-  },
-  textTile: {
-    color: 'white',
-    fontFamily: 'Merriweather',
-    fontSize: '50px',
-    fontWeight: 700,
-  },
-  titleText: {
-    color: 'white',
-    fontFamily: 'Muli',
-    fontWeight: 400,
-    fontSize: '14px',
-  },
-}))
-
-export default function Product(props) {
-  const classes = useStyles_pageShop()
-
-  const { getcollections } = props
+const CollectionShop = (props) => {
+  const { collections, categories } = props
 
   const router = useRouter()
   const handleSubmit = (slug) => {
@@ -134,115 +23,90 @@ export default function Product(props) {
   // If the page is not yet generated, this will be displayed
   // initially until getStaticProps() finishes running
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return <Box>Loading...</Box>
   }
 
   return (
     <Box>
-      <Box className={classes.pageShop}>
-        <Container>
-          <Box className={classes.titlePage}>
-            <Grid item lg={6}>
-              <Box>
-                <Typography
-                  className={classes.textTile}
-                  component="h3"
-                  variant="h3"
-                >
+      <Box h="240px">
+        <Box>
+          <Box
+            color="#fff"
+            backgroundImage="/assets/banner_page.png"
+            h="200px"
+            backgroundRepeat="no-repeat"
+            backgroundSize="cover"
+            mb="60px"
+          >
+            <Flex w="1200px" m="0px auto">
+              <Box lineHeight="3">
+                <Heading fontSize="40" variant="h1">
                   Shop
-                </Typography>
+                </Heading>
               </Box>
-            </Grid>
-            <Grid item lg={6}>
-              <Box className={classes.rightTextPage}>
-                <Breadcrumbs sx={{ color: 'white' }} aria-label="breadcrumb">
-                  <Typography
-                    className={classes.titleText}
-                    component="h6"
-                    variant="h6"
-                  >
+              <Spacer />
+              <Box lineHeight="10">
+                <Flex>
+                  <Text component="h6" variant="h6">
                     Home
-                  </Typography>
-                  <Typography
-                    className={classes.titleText}
-                    component="h6"
-                    variant="h6"
-                  >
-                    Shop
-                  </Typography>
-                </Breadcrumbs>
+                  </Text>
+                  <Text p="0px 10px"> / </Text>
+                  <Text component="h6" variant="h6">
+                    My account
+                  </Text>
+                </Flex>
               </Box>
-            </Grid>
+            </Flex>
           </Box>
-        </Container>
+        </Box>
       </Box>
-      <Container>
-        <Box className={classes.productCategory}>
-          <Grid item lg={3} className={classes.productCategoryText}>
+      <Container maxW="1200px" m="12px auto">
+        <Flex>
+          <Box item lg={3} w="20%">
             <Box>
-              <Typography
-                className={classes.titleSideBarCategory}
-                component="h4"
-                variant="h4"
+              <Heading
+                as="h3"
+                size="lg"
+                color="brand.title"
+                borderBottom="1px solid #ccc"
+                pb="2"
               >
                 Product Category
-              </Typography>
+              </Heading>
             </Box>
-            <List>
-              <ListItem disablePadding>
-                <ListItemButton className={classes.categoryText}>
-                  <ListItemText onClick={() => handleSubmit(`custom-prints`)}>
-                    Custom Prints
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-              <Divider />
-              <ListItem disablePadding>
-                <ListItemButton className={classes.categoryText}>
-                  <ListItemText onClick={() => handleSubmit(`free-file-check`)}>
-                    Free file check
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-              <Divider />
-              <ListItem disablePadding>
-                <ListItemButton className={classes.categoryText}>
-                  <ListItemText onClick={() => handleSubmit(`graphic-design`)}>
-                    Graphic Design
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-              <Divider />
-              <ListItem disablePadding>
-                <ListItemButton className={classes.categoryText}>
-                  <ListItemText onClick={() => handleSubmit(`mailing`)}>
-                    Mailing
-                  </ListItemText>
-                </ListItemButton>
-              </ListItem>
-            </List>
-          </Grid>
-
-          <Grid item lg={9}>
-            <Grid
-              container
-              spacing={{ sm: 2, md: 2, xs: 3, lg: 3 }}
-              columns={{ xl: 3, sm: 2, md: 3, lg: 3 }}
-            >
-              {getcollections.length
-                ? getcollections.map((product) => (
-                    <Collection key={product.id} product={product} />
-                  ))
-                : ''}
-            </Grid>
-          </Grid>
-        </Box>
+            {categories.length > 0 &&
+              categories.map((item) => (
+                <Box key={item}>
+                  <Box disablePadding>
+                    <Box>
+                      <Button onClick={() => handleSubmit(item.slug)}>
+                        {item.name}
+                      </Button>
+                    </Box>
+                  </Box>
+                </Box>
+              ))}
+          </Box>
+          <Box item lg={8} w="80%" pl="20">
+            <SimpleGrid columns={3}>
+              {collections.length > 0 &&
+                collections.map((product) => (
+                  <Collection key={product.id} product={product} />
+                ))}
+            </SimpleGrid>
+          </Box>
+        </Flex>
       </Container>
     </Box>
   )
 }
+export default CollectionShop
 
-export async function getStaticProps({ params, locale, locales }) {
+export async function getStaticProps({ params, locale, locales, preview }) {
+  const config = { locale, locales }
+  const siteInfoPromise = commerce.getSiteInfo({ config, preview })
+
+  const { categories } = await siteInfoPromise
   /*********AXIOS GRAPHQL */
   const endpoint = process.env.NEXT_PUBLIC_VENDURE_SHOP_API_URL
   const headers = {
@@ -284,15 +148,16 @@ export async function getStaticProps({ params, locale, locales }) {
     data: graphqlQuery,
   })
 
-  const getcollections = response.data.data.collection.productVariants.items
+  const collections = response.data.data.collection?.productVariants.items
 
-  if (!getcollections) {
+  if (!collections) {
     throw new Error(`Product with slug '${params.slug}' not found`)
   }
 
   return {
     props: {
-      getcollections,
+      collections,
+      categories,
     },
     revalidate: 200,
   }
@@ -314,21 +179,3 @@ export async function getStaticPaths({ locales }) {
     fallback: 'blocking',
   }
 }
-
-// export async function getServerSideProps(context) {
-
-//      const { params: { slug } } = context
-//      //console.log(context);
-
-//     const result= await client.query({
-//         query: COLLECTION_QUERY,
-//         variables: { slug }
-//     });
-
-//     return {
-//         props: {
-//             productrelate: result.data.collection.productVariants.items,
-//         },
-
-//     };
-// }

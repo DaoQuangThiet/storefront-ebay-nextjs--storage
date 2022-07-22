@@ -1,256 +1,276 @@
-import React from "react";
-import { Container, Box, Grid } from '@mui/material';
-import Link from "next/link";
+import React from 'react'
+import Link from 'next/link'
+import { AiFillHome, AiFillLinkedin, AiOutlineGoogle } from 'react-icons/ai'
+import { MdPhone, MdEmail, MdFavorite } from 'react-icons/md'
+import { GoGlobe, GoPrimitiveDot } from 'react-icons/go'
+import { BsTwitter } from 'react-icons/bs'
+import { FaFacebookF } from 'react-icons/fa'
+import {
+  Container,
+  Flex,
+  Text,
+  Heading,
+  HStack,
+  Box,
+  Circle,
+  Center,
+} from '@chakra-ui/react'
 
-// add font
-import HomeIcon from '@mui/icons-material/Home';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import MailIcon from '@mui/icons-material/Mail';
-import PublicIcon from '@mui/icons-material/Public';
-import FacebookSharpIcon from '@mui/icons-material/FacebookSharp';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import GoogleIcon from '@mui/icons-material/Google';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-
-// makestyle
-import { makeStyles } from "@material-ui/core/styles";
-
-const colorHeading = '#323232';
-const colorHover = '#40c6ff';
-const colorDefaul = '#666';
-
-// import images
-import imgWorking from '../assets/imgWorking.jpg';
-
-const useStyle_footer = makeStyles({
-    box_f: {
-        '@media (max-width: 899px)': {
-            marginBottom: '25px',
-            Clear: 'both',
-            overflow: 'hidden',
-        }
-    },
-    footer_main: {
-        backgroundColor: '#fff',
-        paddingTop: '45px',
-        paddingBottom: '8px',
-    },
-    title_f: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        margin: '10px 0px 14px 0px',
-        borderBottom: 'none',
-        paddingBottom: '0px',
-        fontFamily: 'Merriweather',
-        color: `${colorHeading}`,
-    },
-    address_f: {
-        listStyle: 'none',
-        padding: '0px',
-        margin: '0px 0px 15px 0px',
-        '& li': {
-            padding: '8px 0px',
-            marginBottom: '3px',
-            borderBottom: 'none',
-            color: `${colorDefaul}`,
-            '&:first-child': {
-                paddingRight: '30px',
-            },
-            '& svg': {
-                fontSize: '16px',
-                color: `${colorDefaul}`,
-                marginRight: '15px',
-            },
-            '& a': {
-                color: `${colorDefaul}`,
-                '&:hover': {
-                    color: `${colorHover}`,
-                }
-            }
-        }
-    },
-    social_f: {
-        listStyle: 'none',
-        padding: '0px',
-        margin: '0px',
-        float: 'left',
-        '& li': {
-            display: 'inline-flex',
-            padding: '0px',
-            margin: '0px',
-            '& a': {
-                width: 40,
-                height: 40,
-                display: 'inline-flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginRight: '15px',
-                borderRadius: '50%',
-                transition: '0.35s',
-                border: '1px solid #666',
-                '& svg': {
-                    fontSize: ' 16px',
-                    color: `${colorDefaul}`,
-                },
-                '&:hover': {
-                    borderColor: `${colorHover}`,
-                    backgroundColor: `${colorHover}`,
-                    '& svg': {
-                        color: "#fff",
-                    },
-                }
-            }
-        }
-    },
-    menu_footer: {
-        listStyle: 'none',
-        padding: '0px',
-        margin: '0px',
-        '& li': {
-            display: 'flex',
-            alignItems: 'center',
-            lineHeight: '30px',
-            '& svg': {
-                fontSize: '8px',
-                marginRight: '15px',
-                color: `${colorDefaul}`,
-
-            },
-            '& a': {
-                color: `${colorDefaul}`,
-                fontSize: '16px',
-                '&:hover': {
-                    color: `${colorHover}`,
-                }
-            }
-
-        }
-    },
-    descWorking: {
-        color: `${colorDefaul}`,
-        fontSize: '16px',
-        '& span': {
-            display: 'block',
-            lineHeight: '30px',
-        }
-    },
-    boxWorking: {
-        backgroundImage: `url(${imgWorking.src})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        minHeight: '160px',
-        width: ' 100%',
-        borderRadius: '10px',
-        marginTop: '10px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        color: '#fff',
-        fontSize: '16px',
-        '& svg': {
-            color: '#fe7fa9',
-            marginTop: '10px',
-        }
-    }
-
-});
 const Footer = () => {
-    const classes = useStyle_footer()
-    return (
-        <div className={classes.footer_main}>
-            <React.Fragment>
-                <Container maxWidth="lg">
-                    <Box sx={{ flexGrow: 1 }}>
-                        <Grid container>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <div className={classes.box_f}>
-                                    <p className={classes.title_f}>Contact us</p>
-                                    <ul className={classes.address_f}>
-                                        <li><HomeIcon />PO Box CT16122 Collins Street West, Victoria 8007, Australia.</li>
-                                        <li><LocalPhoneIcon />+1 (2) 345 6789</li>
-                                        <li>
-                                            <MailIcon />
-                                            <Link href="#">
-                                                <a>contact@yourdomain.com</a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <PublicIcon />
-                                            <Link href="#">
-                                                <a>http://yourdomain.com</a>
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                    <ul className={classes.social_f}>
-                                        <li>
-                                            <Link href="facebook.com/">
-                                                <a><FacebookSharpIcon /></a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">
-                                                <a><TwitterIcon /></a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">
-                                                <a><LinkedInIcon /></a>
-                                            </Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#">
-                                                <a><GoogleIcon /></a>
-                                            </Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <div className={classes.box_f}>
-                                    <p className={classes.title_f}>Information</p>
-                                    <ul className={classes.menu_footer}>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>New Product</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>Best Seller</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>Feature Product</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>Deal off day</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>Handcrafted, Artisan Jewelry</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>Jewelry Boxes & Organizers</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>Jewelry Design & Repair</a></Link></li>
-                                    </ul>
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <div className={classes.box_f}>
-                                    <p className={classes.title_f}>My account</p>
-                                    <ul className={classes.menu_footer}>
-                                        <li><FiberManualRecordIcon /><Link href="/myaccount"><a>My account</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="/orders"><a>Order History</a></Link></li>
-                                        <li><FiberManualRecordIcon /><Link href="#"><a>Other</a></Link></li>
-                                    </ul>
-                                </div>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={3}>
-                                <div className={classes.box_f}>
-                                    <p className={classes.title_f}>Working Time</p>
-                                    <div className={classes.descWorking}>
-                                        <span>Mon to Fri:8:30 am - 6:00 pm</span>
-                                        <span>Sat and Sun:10:00 am – 5:00 pm</span>
-                                    </div>
-                                    <div className={classes.boxWorking}>
-                                        <FavoriteIcon />
-                                        <span>Time In Works</span>
-                                        <span>8:30 am - 6:00 pm</span>
-                                    </div>
-                                </div>
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </Container>
-            </React.Fragment>
-        </div >
-    )
+  return (
+    <Container maxW="1200px" fontFamily="Merriweather">
+      <Flex>
+        <Box w="25%" color="#323232">
+          <Heading as="h4" size="md" pb="6" fontFamily="Merriweather">
+            Contact us
+          </Heading>
+          <Box color="#666">
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <AiFillHome />
+                </Box>
+                <Box pl="2">
+                  PO Box CT16122 Collins Street West, Victoria 8007, Australia.
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <MdPhone />
+                </Box>
+                <Box pl="2">+1 (2) 345 6789</Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <MdEmail />
+                </Box>
+                <Box pl="2">
+                  <Link href="#" pl="2">
+                    contact@yourdomain.com
+                  </Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoGlobe />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">http://yourdomain.com</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Flex>
+              <HStack>
+                <Circle
+                  size="40px"
+                  bg="#fff"
+                  color="#666"
+                  border="1px solid #666"
+                >
+                  <Link href="facebook.com/">
+                    <FaFacebookF />
+                  </Link>
+                </Circle>
+              </HStack>
+              <HStack>
+                <Circle
+                  size="40px"
+                  bg="#fff"
+                  color="#666"
+                  border="1px solid #666"
+                  m="3"
+                >
+                  <Link href="#">
+                    <BsTwitter />
+                  </Link>
+                </Circle>
+              </HStack>
+              <HStack>
+                <Circle
+                  size="40px"
+                  bg="#fff"
+                  color="#666"
+                  border="1px solid #666"
+                >
+                  <Link href="#">
+                    <AiFillLinkedin />
+                  </Link>
+                </Circle>
+              </HStack>
+              <HStack>
+                <Circle
+                  size="40px"
+                  bg="#fff"
+                  color="#666"
+                  border="1px solid #666"
+                  m="3"
+                >
+                  <Link href="#">
+                    <AiOutlineGoogle />
+                  </Link>
+                </Circle>
+              </HStack>
+            </Flex>
+          </Box>
+        </Box>
+        <Box w="25%">
+          <Heading
+            as="h4"
+            size="md"
+            pb="6"
+            color="#323232"
+            fontFamily="Merriweather"
+          >
+            Information
+          </Heading>
+          <Box color="#666">
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">New Product</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">Best Seller</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">Feature Product</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">Deal off day</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">Handcrafted, Artisan Jewelry</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">Jewelry Boxes & Organizers</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">Jewelry Design & Repair</Link>
+                </Box>
+              </Flex>
+            </Box>
+          </Box>
+        </Box>
+        <Box w="25%">
+          <Box color="#323232">
+            <Heading as="h4" size="md" pb="6" fontFamily="Merriweather">
+              My account
+            </Heading>
+          </Box>
+          <Box color="#666">
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">My account</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="2">
+                  <Link href="#">Order History</Link>
+                </Box>
+              </Flex>
+            </Box>
+            <Box pb="2">
+              <Flex>
+                <Box>
+                  <GoPrimitiveDot fontSize="10px" />
+                </Box>
+                <Box pl="10px">
+                  <Link href="#">Other</Link>
+                </Box>
+              </Flex>
+            </Box>
+          </Box>
+        </Box>
+        <Box w="25%" color="#323232">
+          <Heading as="h4" size="md" pb="6" fontFamily="Merriweather">
+            Working Time
+          </Heading>
+          <Box color="#666">
+            <Text>Mon to Fri:8:30 am - 6:00 payment</Text>
+            <Text>Sat and Sun:10:00 am – 5:00 pm</Text>
+          </Box>
+          <Box
+            mt="3"
+            p={4}
+            w="100%"
+            color="#666"
+            backgroundImage="/assets/imgWorking.jpg"
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
+            backgroundSize="100%"
+            borderRadius="10"
+          >
+            <Box color="#fff" pt="6" pb="6">
+              <Center>
+                <MdFavorite size={25} color="red" />
+              </Center>
+              <span>Time In Works </span>
+              We 8:30 am - 6:00 pm
+            </Box>
+          </Box>
+        </Box>
+      </Flex>
+    </Container>
+  )
 }
-export default Footer;
+export default Footer

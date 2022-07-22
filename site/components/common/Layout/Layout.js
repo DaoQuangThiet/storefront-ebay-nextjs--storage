@@ -1,30 +1,27 @@
-import React from "react";
+import React from 'react'
+import SideBarTop from '../../sidebar'
+import HeaderMid from '../../HeaderMid'
+import HeaderCenter from '../../HeaderCenter'
+import Footer from '../../Footer'
+import Copyright from '../../Copyright'
+import { AppProvider } from '@lib/context/AppContext'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
-// import header footer all pages 
-import AddHead from "../../AddHead";
-import SideBarTop from "../../sidebar";
-import HeaderMid from "../../HeaderMid";
-import HeaderCenter from "../../HeaderCenter";
-import Footer from "../../Footer";
-import Copyright from "../../Copyright";
-//import { AppProvider } from "./context/Appcontext";
+const queryClient = new QueryClient()
 
-const Layout = ({ children }) => {
-    return (
-        // <AppProvider>
-        <div>
-            <AddHead />
-            <SideBarTop />
-            <HeaderMid />
-            <HeaderCenter />
-
-            {children}
-
-            <Footer />
-            <Copyright />
-
-        </div>
-        // </AppProvider>
-    )
+const Layout = (props) => {
+  const { categories } = props
+  return (
+    <AppProvider>
+      <QueryClientProvider client={queryClient}>
+        <SideBarTop />
+        <HeaderMid key={categories} categories={categories} />
+        <HeaderCenter />
+        {props.children}
+        <Footer />
+        <Copyright />
+      </QueryClientProvider>
+    </AppProvider>
+  )
 }
-export default Layout;
+export default Layout

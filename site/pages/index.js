@@ -1,21 +1,21 @@
 import React from 'react'
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Box, SimpleGrid } from '@chakra-ui/react'
 import SwipeableTextMobileStepper from '../components/slider'
-import Product from '../components/product'
-import NewImageList from '../components/newlistimg'
-import SellerImageList from '../components/imglist'
-import NameForm from '../components/formEmail'
-import { AppProvider } from '../lib/context/AppContext'
+import Product from '@components/product'
+import ListImages from '@components/ListImages'
+import ListImgSeller from '../components/imglist'
+import NameForm from '@components/formEmail'
 import DealsOfDay from 'components/DealsOfDay'
-import Tab from 'components/tab'
-import TabSeller from 'components/tabSeller'
-import Logo from 'components/tabsLogo'
-import Collection from 'components/collection'
+import TabHeader from '@components/tab'
+import TabSeller from '@components/tabSeller'
+import Logo from '@components/ListLogo'
 import commerce from '@lib/api/commerce'
 import axios from 'axios'
 import ProdutcsSeller from '@components/ProductsSeller'
+import Search_Collection from '@components/searchcollection'
 
-export async function getStaticProps({ preview, locale, locales, params }) {
+export async function getServerSideProps({ preview, locale, locales, query }) {
+  console.log('query', query)
   const config = { locale, locales }
   const productsPromise = commerce.getAllProducts({
     variables: { first: 8 },
@@ -24,6 +24,7 @@ export async function getStaticProps({ preview, locale, locales, params }) {
     // Saleor provider only
     ...{ featured: true },
   })
+
   const pagesPromise = commerce.getAllPages({ config, preview })
   const siteInfoPromise = commerce.getSiteInfo({ config, preview })
   const { products } = await productsPromise
@@ -31,8 +32,7 @@ export async function getStaticProps({ preview, locale, locales, params }) {
   const { categories, brands } = await siteInfoPromise
 
   /***ADD QUERY WITH AXIOS */
-  const endpoint =
-    'http://localhost:3000/shop-api?vendure-token=xn5i72fr18t00v9ghbm'
+  const endpoint = process.env.NEXT_PUBLIC_VENDURE_SHOP_API_URL
   const headers = {
     'content-type': 'application/json',
     Authorization: '<token>',
@@ -58,84 +58,211 @@ export async function getStaticProps({ preview, locale, locales, params }) {
   }
 }`,
   }
-
   const response = await axios({
     url: endpoint,
     method: 'post',
     headers: headers,
     data: graphqlQuery,
   })
-
   const productsSeller = response.data.data.products.items
+
+  const dataTabSeller = {
+    operationName: 'fetchAuthor',
+    query: `query fetchAuthor($s1: String!){
+      search(input: {collectionSlug: $s1, take: 8  }) {
+        items {
+          productName
+          price {
+            ... on SinglePrice {
+              __typename
+              value
+            }
+          }
+          slug
+          productAsset {
+            preview
+          }
+        }
+      }
+}`,
+    variables: { s1: query.s1 ? query.s1 : '' },
+  }
+  const getDataSeller = await axios({
+    url: endpoint,
+    method: 'post',
+    headers: headers,
+    data: dataTabSeller,
+  })
+  const tabSeller = query.s1 ? getDataSeller.data.data.search.items : ''
+
+  const QueryproductsDeal = {
+    operationName: 'fetchAuthor',
+    query: `query fetchAuthor{
+      products(options: {take:2}){
+      items {
+        id
+        name
+        description
+        slug
+        assets {
+          source
+        }
+        variants {
+          currencyCode
+          price
+          name
+        }
+      }
+  }
+}`,
+  }
+  const productsdof = await axios({
+    url: endpoint,
+    method: 'post',
+    headers: headers,
+    data: QueryproductsDeal,
+  })
+  const productDeal = !query.s1 && productsdof.data.data.products.items
+
+  const queryCollection = {
+    operationName: 'fetchAuthor',
+    query: `query fetchAuthor($s: String!) {
+      search(input: {collectionSlug: $s, take: 8 }) {
+        items {
+          productName
+          price {
+            ... on SinglePrice {
+              __typename
+              value
+            }
+          }
+          slug
+          productAsset {
+            preview
+          }
+        }
+      }
+    }`,
+    variables: { s: query.s ? query.s : '' },
+  }
+  const tabHeader = await axios({
+    url: endpoint,
+    method: 'POST',
+    headers: headers,
+    data: queryCollection,
+  })
+  const dataTab = tabHeader.data.data.search.items
 
   return {
     props: {
       products,
+      productDeal,
       productsSeller,
+      dataTab,
       categories,
       brands,
       pages,
+      tabSeller,
     },
-    revalidate: 60,
+    // revalidate: 86400,
   }
 }
 
 const Home = (props) => {
-  const { products, productsSeller } = props
-  //console.log('collections', collections)
+  const {
+    products,
+    productsSeller,
+    categories,
+    productDeal,
+    dataTab,
+    tabSeller,
+  } = props
+  // console.log('dataTab', dataTab)
+  const brands = [
+    {
+      id: 1,
+      imageUrl: '/assets/logo1.png',
+    },
+    {
+      id: 2,
+      imageUrl: '/assets/logo2.png',
+    },
+    {
+      id: 3,
+      imageUrl: '/assets/logo3.png',
+    },
+    {
+      id: 4,
+      imageUrl: '/assets/logo4.png',
+    },
+    {
+      id: 5,
+      imageUrl: '/assets/logo5.png',
+    },
+    {
+      id: 6,
+      imageUrl: '/assets/logo6.png',
+    },
+    {
+      id: 7,
+      imageUrl: '/assets/logo5.png',
+    },
+    {
+      id: 8,
+      imageUrl: '/assets/logo6.png',
+    },
+    {
+      id: 9,
+      imageUrl: '/assets/logo5.png',
+    },
+    {
+      id: 10,
+      imageUrl: '/assets/logo6.png',
+    },
+    {
+      id: 11,
+      imageUrl: '/assets/logo5.png',
+    },
+    {
+      id: 12,
+      imageUrl: '/assets/logo6.png',
+    },
+  ]
 
   return (
-    <AppProvider>
-      <div>
-        <SwipeableTextMobileStepper />
-        <DealsOfDay />
-        <Container>
-          <Tab />
-          <Grid
-            container
-            spacing={{ sm: 2, md: 2, xs: 4, lg: 3 }}
-            columns={{ xs: 4, sm: 6, md: 4, lg: 4 }}
-          >
-            {products.length
-              ? products.map((product) => (
-                  <Product key={product.id} product={product} />
-                ))
-              : ''}
-          </Grid>
-          {/* <Grid container spacing={{ sm: 2, md: 2, xs: 4, lg: 3 }} columns={{ xs: 4, sm: 6, md: 4, lg: 4 }}>
-            {products.length ? (
-              products.map(product => <Product key={product.id} product={product} />)
-            ) : ''}
-          </Grid> */}
-        </Container>
-
-        <NewImageList />
-        <Container>
-          <TabSeller />
-          <Grid
-            container
-            spacing={{ sm: 2, md: 2, xs: 4, lg: 3 }}
-            columns={{ xs: 4, sm: 6, md: 4, lg: 4 }}
-          >
-            {productsSeller.length
-              ? productsSeller.map((product) => (
-                  <ProdutcsSeller key={product.id} product={product} />
-                ))
-              : ''}
-          </Grid>
-          {/* <Grid container spacing={{ sm: 2, md: 2, xs: 4, lg: 3 }} columns={{ xs: 4, sm: 6, md: 4, lg: 4 }}>
-            {products.length ? (
-              products.map(product => <Product key={product.id} product={product} />)
-            ) : ''}
-          </Grid> */}
-        </Container>
-        <SellerImageList />
-        <Logo />
-        <NameForm />
-        {/* <Footer />
-        <Copyright /> */}
-      </div>
-    </AppProvider>
+    <Box>
+      <SwipeableTextMobileStepper />
+      <DealsOfDay key={productDeal.id} productsdeal={productDeal} />
+      <TabHeader
+        key={categories.id}
+        collections={categories}
+        products={dataTab}
+      />
+      <SimpleGrid columns={4} w="1200px" m="12px auto">
+        {dataTab.length > 0 &&
+          dataTab.map((product) => (
+            <Search_Collection key={product.id} product={product} />
+          ))}
+      </SimpleGrid>
+      <ListImages />
+      <TabSeller key={categories.id} collections={categories} />
+      <SimpleGrid columns={4} w="1200px" m="12px auto">
+        {!tabSeller &&
+          productsSeller.length > 0 &&
+          productsSeller.map((product) => (
+            <ProdutcsSeller key={product.id} product={product} />
+          ))}
+      </SimpleGrid>
+      <SimpleGrid columns={4} w="1200px" m="12px auto">
+        {tabSeller.length > 0 &&
+          tabSeller.map((product) => (
+            <Search_Collection key={product.id} product={product} />
+          ))}
+      </SimpleGrid>
+      <ListImgSeller />
+      <Logo brands={brands} />
+      <NameForm />
+    </Box>
   )
 }
 export default Home
